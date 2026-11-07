@@ -1,0 +1,10 @@
+services:
+  node:
+    build: .
+    ports:
+      - "8388:8388/tcp"
+      - "8388:8388/udp"
+    volumes:
+      - nodedata:/data
+volumes:
+  nodedata:
