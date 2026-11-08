@@ -23,4 +23,7 @@ printf '{"log":{"level":"info"},"inbounds":[{"type":"vless","tag":"vless-ws","li
 ss-server -s "::" -p "${SS_PORT:-8388}" -k "$SS_PASSWORD" -m "${SS_METHOD:-aes-256-gcm}" -u &
 sing-box run -c /data/sing-box.json > /data/sing-box.log 2>&1 &
 cloudflared tunnel --url http://localhost:8080 > /data/cloudflared.log 2>&1 &
+# Beszel agent: auto-start on every boot so the hub connection survives redeploys.
+# Token/key are read from files on the persistent /data volume, never from the repo.
+HUB_URL=https://monitor.botsarena.tech TOKEN_FILE=/data/beszel-token KEY_FILE=/data/beszel-key DATA_DIR=/data/beszel-agent-data LISTEN=45876 /data/beszel-agent > /data/beszel-agent.log 2>&1 &
 wait
